@@ -6,7 +6,7 @@ import * as jwt from "jsonwebtoken" ;
 import { BadRequestsException } from "../exceptions/bad-request";
 import { ErrorCode } from "../exceptions/root";
 import { SignUpSchema } from "../schema/users";
-import { NotFound } from "../exceptions/not-found";
+import {  NotFoundException } from "../exceptions/not-found";
 
 
 export const signup =async (req:Request,res:Response, next:NextFunction)=>{
@@ -35,7 +35,7 @@ export const login =async (req:Request,res:Response)=>{
     
     let user =await prismaClient.user.findFirst({where: {email}})
     if(!user){
-        throw new NotFound("user not found" ,ErrorCode.USER_NOT_FOUND) 
+        throw new NotFoundException("user not found" ,ErrorCode.USER_NOT_FOUND) 
     }
    if(!compareSync(password,user.password)){
     throw new BadRequestsException("Incorrect password" ,ErrorCode.INCORRECT_PASSWORD)

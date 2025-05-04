@@ -31,11 +31,31 @@ model User{
   email String @unique
   password String
   role Role @default(USER)
+  defaultShippingAddress Int?
+  defaultBillingAddress Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
+  adresses Address[]
   @@map("users")
 }
+
+model Address{
+  id Int @id @default(autoincrement())
+  lineOne String
+  lineTwo String?
+  city String
+  country String
+  pincode Int
+  userId Int
+  user User @relation(fields: [userId] , references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("addresses")
+}
+
+
 model Product {
   id Int @id @default(autoincrement())
   name String
